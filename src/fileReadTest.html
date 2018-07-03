@@ -1,0 +1,40 @@
+<html>
+<p>
+<p>
+<div id="drop_zone">Drop files here</div>
+<output id="list"></output>
+<input type="file" id="fileinput" />
+<script src="dat.js"></script>
+<script src="dataService.js"></script>
+<script src="fileParser.js"></script>
+<script type="text/javascript">
+	var fileContents = "";	
+	
+	readFile = async (event) => {
+		const file = event.target.files[0];
+		
+		var dataService = new DataService();
+		try {
+			//load data
+			fileContents = await dataService.readData(file)  
+			
+			//parse string data
+			var parser = new Parser(fileContents);
+			var days = parser.parse();
+			
+			var arrayLength = days.length;
+	
+			for (var i = 0; i < arrayLength; i++) {
+				console.log(days[i]);
+			}
+			//console.log(fileContents);
+		} catch (e) {
+			console.warn(e.message)
+		}
+		
+		//console.log(fileContents);
+	}
+
+  document.getElementById('fileinput').addEventListener('change', readFile, false);
+</script>
+</html>
