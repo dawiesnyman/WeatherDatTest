@@ -50,8 +50,8 @@
 callMain = async (event) =>{
 	//set up services
 	//keep them local
-	let dataServiceFactory = new DataServiceFactory();
-	let dataService = dataServiceFactory.getDataService('textFile', event);//, event, writeback;	
+	let dataServiceFactory = new DataServiceFactory();//see further comment in factory file
+	let dataService = dataServiceFactory.getDataService('textFile', event);	
 	let parser = new Parser();
 	let main = new Main(dataService, parser);
 
