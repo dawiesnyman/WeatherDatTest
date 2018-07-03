@@ -1,8 +1,4 @@
 var FileDataService = function(){
-	//this.file = file;
-	this.data = "";
-
-
 }
 
 FileDataService.prototype.setSource = (source) => {

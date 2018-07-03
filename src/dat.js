@@ -19,4 +19,6 @@ var Dat = function(){
 	this.MxR = 0.0;
 	this.MnR = 0.0;
 	this.AvSLP = 0.0;	
-}
+};
+
+

@@ -1,7 +1,8 @@
 var Main = function(dataService, parser){
+    //did this as a mudule just to display the pattern
 	var dataService = dataService;
 	var parser = parser;
-	var triggerDataRead  = async (writeBack) => {		
+	var readAndCompute  = async (writeBack) => {		
 		try {
             //load data
 			let fileContents = await dataService.readData();
@@ -30,6 +31,6 @@ var Main = function(dataService, parser){
 	};
 
 	return {
-		TriggerDataRead: triggerDataRead	
+		triggerDataRead: readAndCompute	
 	}	
 }
