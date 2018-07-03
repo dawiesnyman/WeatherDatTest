@@ -18,7 +18,7 @@ DataService.prototype.readData = (inputFile) => {
 			resolve(fileReader.result);
 		};
 
-		//playnig with timeout / async
+		//playing with timeout / async
 		//setTimeout(async function() {
 			  // do something 1000ms later here.
 			  fileReader.readAsText(inputFile);

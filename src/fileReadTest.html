@@ -1,26 +1,56 @@
 <!DOCTYPE html>
 <html>
-<p></p>
-<H5>Please select a file or drag and drop it onto the folder icon...</H5>
-<div>
-	<p>
+	<head>
+	<style>
+		thead {color:green;}
+		tbody {color:blue;}
+		tfoot {color:red;}
+		table,th,td	{border:1px solid black;}
+	</style>
 
-	</p>
-</div>
+	<script src="dat.js"></script>
+	<script src="dataService.js"></script>
+	<script src="fileParser.js"></script>
+</head>
+<body>
+<p></p>
+<table border="1" style="width:300px">
+		<thead>
+		<tr>
+			<th>Key</th>
+			<th>Day</th>
+			<th>Value</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr>
+			<td>Min MnT</td>
+			<td><label id="lblMnTDay"></label></td>
+			<td><label id="lblMnT"></label></td>
+		</tr>
+		<tr>
+			<td>Max MxT</td>
+			<td><label id="lblMxTDay"></label></td>
+			<td><label id="lblMxT"></label></td>
+		</tr>
+		</tfoot>
+		</table>
+<H5>Please select a file or drag and drop it onto the folder icon.</H5>
+
 <div id="drop_zone">
-	<img src="./img/folder.png" />
-	<br>
 	<input type="file" id="fileinput" />
+	<br>
+	<br>
+	<img src="./img/folder.png" />
 </div>
-<script src="dat.js"></script>
-<script src="dataService.js"></script>
-<script src="fileParser.js"></script>
+</body>
 <script type="text/javascript">
 
 	triggerFileRead = async (event) => {
 		event.stopPropagation();
 		event.preventDefault();
-				
+
+		//is it from the button or drag drop?		
 		if(event.type == "change")		{
 			readFile(event.target.files[0]);
 		}else{
@@ -37,7 +67,7 @@
 			//parse string data
 			let parser = new Parser(fileContents);
 			let days = parser.parse();
-	
+			
 			//for (var i = 0; i < days.length; i++) {	console.log(days[i]); }
 
 			//get min Mnt
@@ -50,8 +80,14 @@
 				return (smallest.MxT || 0) > (day.MxT) ? smallest : day;
 			}, {});
 
-			console.log(minMnT);			
+			console.log(minMnT.dy);			
 			console.log(maxMxT);
+
+			//lblMnT
+			document.getElementById('lblMnTDay').innerHTML = minMnT.Dy;
+			document.getElementById('lblMnT').innerHTML = minMnT.MnT;
+			document.getElementById('lblMxTDay').innerHTML = maxMxT.Dy;
+			document.getElementById('lblMxT').innerHTML = maxMxT.MxT;
 		} catch (e) {
 			console.warn(e.message)
 		}
