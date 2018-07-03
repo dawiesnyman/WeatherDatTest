@@ -6,18 +6,23 @@ var DataService = function(){
 }
 
 DataService.prototype.readData = (inputFile) => {
-	const temporaryFileReader = new FileReader();
+	const fileReader = new FileReader();
 
 	return new Promise((resolve, reject) => {
-		temporaryFileReader.onerror = () => {
-			temporaryFileReader.abort();
+		fileReader.onerror = () => {
+			fileReader.abort();
 			reject(new DOMException("Problem parsing input file."));
 		};
 
-		temporaryFileReader.onload = () => {
-			resolve(temporaryFileReader.result);
+		fileReader.onload = () => {
+			resolve(fileReader.result);
 		};
+
+		//playnig with timeout / async
+		//setTimeout(async function() {
+			  // do something 1000ms later here.
+			  fileReader.readAsText(inputFile);
+		//	}, 3000);	
 		
-		temporaryFileReader.readAsText(inputFile);
 		});
 };
