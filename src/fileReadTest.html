@@ -8,8 +8,10 @@
 		table,th,td	{border:1px solid black;}
 	</style>
 
+	<script src="main.js"></script>
 	<script src="dat.js"></script>
-	<script src="dataService.js"></script>
+	<script src="fileDataService.js"></script>
+	<script src="dataServiceFactory.js"></script>
 	<script src="fileParser.js"></script>
 </head>
 <body>
@@ -45,55 +47,29 @@
 </div>
 </body>
 <script type="text/javascript">
+callMain = async (event) =>{
+	//set up services
+	//keep them local
+	let dataServiceFactory = new DataServiceFactory();
+	let dataService = dataServiceFactory.getDataService('textFile');//, event, writeback;
+	dataService.setupService(event);
+	let parser = new Parser();
+	let main = new Main(dataService, parser);
 
-	triggerFileRead = async (event) => {
-		event.stopPropagation();
-		event.preventDefault();
+	main.TriggerDataRead(writeOutput);
+}
 
-		//is it from the button or drag drop?		
-		if(event.type == "change")		{
-			readFile(event.target.files[0]);
-		}else{
-			readFile(event.dataTransfer.files[0]);
-		}
-	}
-
-	readFile = async (file) => {		
-		var dataService = new DataService();
-		try {
-			//load data
-			let fileContents = await dataService.readData(file)  
-			
-			//parse string data
-			let parser = new Parser(fileContents);
-			let days = parser.parse();
-			
-			//for (var i = 0; i < days.length; i++) {	console.log(days[i]); }
-
-			//get min Mnt
-			let minMnT = days.reduce(function (smallest, day) {
-				return (day.MnT || 0) > (smallest.MnT) ? smallest : day;
-				}, {});
-		
-			//get max MxT
-			let maxMxT = days.reduce(function (smallest, day) {
-				return (smallest.MxT || 0) > (day.MxT) ? smallest : day;
-			}, {});
-
-			console.log(minMnT.dy);			
-			console.log(maxMxT);
-
-			//lblMnT
-			document.getElementById('lblMnTDay').innerHTML = minMnT.Dy;
-			document.getElementById('lblMnT').innerHTML = minMnT.MnT;
-			document.getElementById('lblMxTDay').innerHTML = maxMxT.Dy;
-			document.getElementById('lblMxT').innerHTML = maxMxT.MxT;
-		} catch (e) {
-			console.warn(e.message)
-		}
-
-		//console.log(fileContents);
-	}
+function writeOutput(minMnT, maxMxT){
+	this.minMnT = minMnT;
+	this.maxMxT = maxMxT;
+	console.log(this.minMnT);
+	console.log(this.maxMxT);
+	//lblMnT
+	document.getElementById('lblMnTDay').innerHTML = this.minMnT.Dy;
+	document.getElementById('lblMnT').innerHTML = this.minMnT.MnT;
+	document.getElementById('lblMxTDay').innerHTML = this.maxMxT.Dy;
+	document.getElementById('lblMxT').innerHTML = this.maxMxT.MxT;
+}
 
 function handleDragOver(evt) {
     evt.stopPropagation();
@@ -104,9 +80,9 @@ function handleDragOver(evt) {
 // Setup the dnd listeners.
 var dropZone = document.getElementById('drop_zone');
 dropZone.addEventListener('dragover', handleDragOver, false);
-dropZone.addEventListener('drop', triggerFileRead, false);
+dropZone.addEventListener('drop', callMain, false);
 
 //hook up fileInput
-document.getElementById('fileinput').addEventListener('change', triggerFileRead, false);
+document.getElementById('fileinput').addEventListener('change', callMain, false);
 </script>
 </html>

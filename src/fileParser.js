@@ -2,23 +2,26 @@
 //
 //   1  88    59    74          53.8       0.00 F       280  9.6 270  17  1.6  93 23 1004.5
 
-var Parser = function(data){
+var Parser = function(){
+}
+
+Parser.prototype.setSource = function(data){
 	this.data = data;
 	this.dataLines = data.split("\n");
 	this.days = [];
+
 	//this.dataLines.shift(); 
 	//this.dataLines.shift();
 	//this.dataLines.pop();
 }
-
 Parser.prototype.parse = function(){
 	var arrayLength = this.dataLines.length;
 	
 	for (var i = 0; i < arrayLength; i++) {
-		//if(this.dataLines[i].)
+
 		var day = new Dat();
 		day.Dy = parseFloat(this.dataLines[i].slice(2, 5));
-		if(!isNaN(day.Dy)){
+		if(!isNaN(day.Dy) && (day.Dy > 0) && (day.Dy < 31)){
 			day.MxT = parseFloat(this.dataLines[i].slice(5, 8));
 			day.MnT = parseFloat(this.dataLines[i].slice(11, 14));
 			day.Avt = parseFloat(this.dataLines[i].slice(17, 20));
