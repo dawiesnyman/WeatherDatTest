@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html>
 	<head>
-	<style>
-		thead {color:green;}
-		tbody {color:blue;}
-		tfoot {color:red;}
-		table,th,td	{border:1px solid black;}
-	</style>
+		<style>
+			thead {color:green;}
+			tbody {color:blue;}
+			tfoot {color:red;}
+			table,th,td	{border:1px solid black;}
+		</style>
 
-	<script src="main.js"></script>
-	<script src="dat.js"></script>
-	<script src="fileDataService.js"></script>
-	<script src="dataServiceFactory.js"></script>
-	<script src="fileParser.js"></script>
-</head>
+		<script src="main.js"></script>
+		<script src="dat.js"></script>
+		<script src="fileDataService.js"></script>
+		<script src="dataServiceFactory.js"></script>
+		<script src="fileParser.js"></script>
+	</head>
 <body>
 <p></p>
 <table border="1" style="width:300px">
@@ -52,6 +52,7 @@ callMain = async (event) =>{
 	//keep them local
 	let dataServiceFactory = new DataServiceFactory();//see further comment in factory file
 	let dataService = dataServiceFactory.getDataService('textFile', event);	
+	
 	let parser = new Parser();
 	let main = new Main(dataService, parser);
 
@@ -63,7 +64,7 @@ function writeOutput(minMnT, maxMxT){
 	this.maxMxT = maxMxT;
 	console.log(this.minMnT);
 	console.log(this.maxMxT);
-	//lblMnT
+
 	document.getElementById('lblMnTDay').innerHTML = this.minMnT.Dy;
 	document.getElementById('lblMnT').innerHTML = this.minMnT.MnT;
 	document.getElementById('lblMxTDay').innerHTML = this.maxMxT.Dy;
@@ -73,7 +74,7 @@ function writeOutput(minMnT, maxMxT){
 function handleDragOver(evt) {
     evt.stopPropagation();
     evt.preventDefault();
-    evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+    evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.	
   }
 
 // Setup the dnd listeners.

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style>
+			thead {color:green;}
+			tbody {color:blue;}
+			tfoot {color:red;}
+			table,th,td	{border:1px solid black;}
+		</style>
+
+		<script src="mainViewModel.js"></script>
+		<script src="dat.js"></script>
+		<script src="fileDataService.js"></script>
+		<script src="dataServiceFactory.js"></script>
+		<script src="fileParser.js"></script>
+	</head>
+<body>
+<p></p>
+<table border="1" style="width:300px">
+		<thead>
+		<tr>
+			<th>Key</th>
+			<th>Day</th>
+			<th>Value</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr>
+			<td>Min MnT</td>
+			<td><label id="lblMnTDay"></label></td>
+			<td><label id="lblMnT"></label></td>
+		</tr>
+		<tr>
+			<td>Max MxT</td>
+			<td><label id="lblMxTDay"></label></td>
+			<td><label id="lblMxT"></label></td>
+		</tr>
+		</tfoot>
+		</table>
+<H5>Please select a file or drag and drop it onto the folder icon.</H5>
+
+<div id="drop_zone">
+	<input type="file" id="fileinput" />
+	<br>
+	<br>
+	<img src="./img/folder.png" />
+</div>
+</body>
+<script type="text/javascript">
+//instantiate
+var factory = new DataServiceFactory();//see further comment in factory file
+var dataService = factory.getDataService('textFile', event);	
+var parser = new Parser();
+var mv = new mainViewModel(dataService, parser);
+
+OnChange = mv.OnChange;
+HandleDragOver = mv.HandleDragOver;
+
+// Setup the dnd listeners.
+var dropZone = document.getElementById('drop_zone');
+dropZone.addEventListener('dragover', HandleDragOver, false);
+dropZone.addEventListener('drop', OnChange, false);
+
+//hook up fileInput
+document.getElementById('fileinput').addEventListener('change', OnChange, false);
+</script>
+</html>

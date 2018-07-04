@@ -1,7 +1,9 @@
 var Main = function(dataService, parser){
-    //did this as a mudule just to display the pattern
+	//did this as a module mainly to 
+	//show the use of this pattern
 	var dataService = dataService;
 	var parser = parser;
+
 	var readAndCompute  = async (writeBack) => {		
 		try {
             //load data
@@ -12,8 +14,13 @@ var Main = function(dataService, parser){
             //parse
 			let days = parser.parse();
 			
+			//debugging
 			//for (var i = 0; i < days.length; i++) {	console.log(days[i]); }
 
+			/*----------------------------------------------------------------------------*\
+			actually thinking this next section and the writeBack should be grouped together 
+			because if those requirements change these two functions would change together
+			\*----------------------------------------------------------------------------*/
 			//get min Mnt
 			let minMnT = days.reduce(function (smallest, day) {
 				return (day.MnT || 0) > (smallest.MnT) ? smallest : day;
