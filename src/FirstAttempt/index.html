@@ -17,23 +17,29 @@
 <body>
 <p></p>
 <table border="1" style="width:300px">
-		<thead>
+	<thead>
 		<tr>
 			<th>Key</th>
 			<th>Day</th>
-			<th>Value</th>
+			<th>MxT</th>
+			<th>MnT</th>
+			<th>Diff</th>
 		</tr>
 		</thead>
 		<tbody>
 		<tr>
-			<td>Min MnT</td>
-			<td><label id="lblMnTDay"></label></td>
-			<td><label id="lblMnT"></label></td>
+			<td>Smallest</td>
+			<td><label id="lblsMnTDay"></label></td>
+			<td><label id="lblsMxT"></label></td>
+			<td><label id="lblsMnT"></label></td>
+			<td><label id="lblsDiff"></label></td>
 		</tr>
 		<tr>
-			<td>Max MxT</td>
-			<td><label id="lblMxTDay"></label></td>
-			<td><label id="lblMxT"></label></td>
+			<td>Largest</td>
+			<td><label id="lbllMxTDay"></label></td>
+			<td><label id="lbllMxT"></label></td>
+			<td><label id="lbllMnT"></label></td>
+			<td><label id="lbllDiff"></label></td>
 		</tr>
 		</tfoot>
 		</table>
@@ -65,10 +71,14 @@ function writeOutput(minMnT, maxMxT){
 	console.log(this.minMnT);
 	console.log(this.maxMxT);
 
-	document.getElementById('lblMnTDay').innerHTML = this.minMnT.Dy;
-	document.getElementById('lblMnT').innerHTML = this.minMnT.MnT;
-	document.getElementById('lblMxTDay').innerHTML = this.maxMxT.Dy;
-	document.getElementById('lblMxT').innerHTML = this.maxMxT.MxT;
+	document.getElementById('lbllMxTDay').innerHTML = this.maxMxT.Dy;
+	document.getElementById('lbllMxT').innerHTML = this.maxMxT.MxT;
+	document.getElementById('lbllMnT').innerHTML = this.maxMxT.MnT;
+	document.getElementById('lbllDiff').innerHTML = this.maxMxT.MxT - this.maxMxT.MnT;
+	document.getElementById('lblsMnTDay').innerHTML = this.minMnT.Dy;
+	document.getElementById('lblsMxT').innerHTML = this.minMnT.MxT;
+	document.getElementById('lblsMnT').innerHTML = this.minMnT.MnT;
+	document.getElementById('lblsDiff').innerHTML = this.minMnT.MxT - this.minMnT.MnT;
 }
 
 function handleDragOver(evt) {

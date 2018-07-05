@@ -1,10 +1,7 @@
-var mainViewModel = function(dataService, parser){
+var mainViewModel = function(dataService, parser, writeOutput){
     this.dataService = dataService;
     this.parser = parser;
-
-    this.allDays = [];
-    this.minMnT = null;
-    this.maxMxT = null;
+    this.writeOutput = writeOutput;
 
     var onChange = async (event) =>{
         event.stopPropagation();
@@ -25,7 +22,6 @@ var mainViewModel = function(dataService, parser){
         this.allDays = parser.parse();
 
         calculateValues(this.allDays);
-        writeOutPut();
     };
 
     var handleDragOver = function(event){
@@ -36,26 +32,17 @@ var mainViewModel = function(dataService, parser){
 
     function calculateValues(data){
         //get min Mnt
-        this.minMnT = data.reduce(function (smallest, day) {
-            return (day.MnT || 0) > (smallest.MnT) ? smallest : day;
+        let minMnT = data.reduce(function (smallest, day) {
+            return (day.MxT - day.MnT || 0) > (smallest.MxT - smallest.MnT) ? smallest : day;
             }, {});
-    
+            
         //get max MxT
-        this.maxMxT = data.reduce(function (smallest, day) {
-            return (smallest.MxT || 0) > (day.MxT) ? smallest : day;
+        let maxMxT = data.reduce(function (smallest, day) {
+            return (smallest.MxT - smallest.MnT ) > (day.MxT - day.MnT) ? smallest : day;
         }, {});
-    }
 
-    writeOutPut = function(){
-        console.log(minMnT);
-        console.log(maxMxT);
-    
-        document.getElementById('lblMnTDay').innerHTML = this.minMnT.Dy;
-        document.getElementById('lblMnT').innerHTML = this.minMnT.MnT;
-        document.getElementById('lblMxTDay').innerHTML = this.maxMxT.Dy;
-        document.getElementById('lblMxT').innerHTML = this.maxMxT.MxT;
+        writeOutput(minMnT, maxMxT);
     }
-    //var show
 
     return {
         OnChange: onChange,

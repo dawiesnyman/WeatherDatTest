@@ -23,12 +23,12 @@ var Main = function(dataService, parser){
 			\*----------------------------------------------------------------------------*/
 			//get min Mnt
 			let minMnT = days.reduce(function (smallest, day) {
-				return (day.MnT || 0) > (smallest.MnT) ? smallest : day;
+				return (day.MxT - day.MnT || 0) > (smallest.MxT - smallest.MnT) ? smallest : day;
 				}, {});
 		
 			//get max MxT
 			let maxMxT = days.reduce(function (smallest, day) {
-				return (smallest.MxT || 0) > (day.MxT) ? smallest : day;
+				return (smallest.MxT - smallest.MnT ) > (day.MxT - day.MnT) ? smallest : day;
 			}, {});
 
 			writeBack(minMnT, maxMxT);
